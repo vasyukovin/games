@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GameRequest;
+use App\Models\Game;
+use App\Services\GameService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
 class GameController extends Controller
@@ -10,55 +14,61 @@ class GameController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return bool|string
      */
-    public function index()
+    public function index(): bool|string
     {
-        return 123;
+        return response(GameService::getGamesWithGenres());
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param GameRequest $request
+     * @return Response
      */
-    public function store(Request $request)
+    public function store(GameRequest $request): Response
     {
-        //
+        GameService::createGameWithGenres($request);
+
+        return response('Игра добавлена', 201);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return bool|string
      */
-    public function show($id)
+    public function show(int $id): bool|string
     {
-        //
+        return response(GameService::getGameWithGenres($id));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param GameRequest $request
+     * @param Game $game
+     * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(GameRequest $request, Game $game): Response
     {
-        //
+        GameService::updateGameWithGenres($request, $game);
+
+        return response('Игра обновлена');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Game $game
+     * @return Response
      */
-    public function destroy($id)
+    public function destroy(Game $game): Response
     {
-        //
+        $game->delete();
+
+        return response('Игра удалена');
     }
 }
