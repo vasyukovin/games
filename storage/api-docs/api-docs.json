@@ -1,0 +1,120 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API создания игр",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/games": {
+            "get": {
+                "tags": [
+                    "Games"
+                ],
+                "summary": "Отображает список игр",
+                "operationId": "gamesAll",
+                "responses": {
+                    "200": {
+                        "description": "Список получен",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Games"
+                ],
+                "summary": "Отображает список игр",
+                "operationId": "gameStore",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/GameRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Игра создана",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Game"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "GameRequest": {
+                "title": "Game request",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "Название",
+                        "description": "Название игры",
+                        "type": "string",
+                        "example": "Ведьмак"
+                    },
+                    "description": {
+                        "title": "Описание",
+                        "description": "Описание Игры",
+                        "type": "string",
+                        "example": "Игра в средневековом сеттинге"
+                    }
+                },
+                "type": "object"
+            },
+            "Game": {
+                "title": "Game",
+                "description": "Game model",
+                "properties": {
+                    "name": {
+                        "title": "Название",
+                        "description": "Название игры",
+                        "type": "string",
+                        "example": "Ведьмак"
+                    },
+                    "description": {
+                        "title": "Описание",
+                        "description": "Описание Игры",
+                        "type": "string",
+                        "example": "Игра в средневековом сеттинге"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Game"
+                }
+            },
+            "GameResource": {
+                "title": "GameResource",
+                "description": "Game resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Game"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "GameResource"
+                }
+            }
+        }
+    }
+}
